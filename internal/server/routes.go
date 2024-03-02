@@ -50,11 +50,20 @@ func (s *Server) AnotherRoutePostHandler(w http.ResponseWriter, r *http.Request)
 	resp := make(map[string]string)
 	b, err := io.ReadAll(r.Body)
 
+	var unmarshaledJson map[string]string
+
 	if err != nil {
 		panic(err)
 	}
 
 	fmt.Printf("%s", b)
+
+	var unmarshalingError = json.Unmarshal(b, &unmarshaledJson)
+	if unmarshalingError != nil {
+		panic(unmarshalingError)
+	}
+
+	fmt.Println(unmarshaledJson)
 
 	resp["message"] = "Success!"
 
