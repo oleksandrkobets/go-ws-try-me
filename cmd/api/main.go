@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"go-ws-try-me/internal/server"
+	"math/rand"
 	"time"
 )
 
@@ -25,7 +26,30 @@ func SaveBook(book *Book) {
 	book.savedAt = time.Now()
 }
 
+type FootballPlayer struct {
+	stamina int
+	power   int
+}
+
+type Player interface {
+	KickBall()
+}
+
+func (f FootballPlayer) KickBall() {
+	shot := f.stamina + f.power
+	fmt.Println("Kicking the ball ", shot)
+}
+
 func main() {
+
+	team := make([]Player, 11)
+	for i := 0; i < len(team); i++ {
+		team[i] = FootballPlayer{
+			stamina: rand.Intn(10),
+			power:   rand.Intn(10),
+		}
+		team[i].KickBall()
+	}
 
 	server := server.NewServer()
 
